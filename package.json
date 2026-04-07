@@ -1,0 +1,32 @@
+{
+  "name": "ppifinal",
+  "version": "1.0.0",
+  "description": "Trabalho Final de PPI - Projeto de um sistema de gerenciamento de biblioteca",
+  "keywords": [
+    "PPI",
+    "trabalho final",
+    "gerenciamento de biblioteca",
+    "projeto"
+  ],
+  "homepage": "https://github.com/pedrobuenobrandao/PPI-Final#readme",
+  "bugs": {
+    "url": "https://github.com/pedrobuenobrandao/PPI-Final/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedrobuenobrandao/PPI-Final.git"
+  },
+  "license": "ISC",
+  "author": "Pedro Bueno Brandão",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2"
+  }
+}
