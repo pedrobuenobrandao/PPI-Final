@@ -62,13 +62,32 @@ app.get("/menu", validarAcesso, (req,res)=>{
     res.cookie("ultimoAcesso", agora.toLocaleString());
 
     res.send(`
-        <h2>Menu Biblioteca</h2>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Menu Biblioteca</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
 
-        <p>Último acesso: ${ultimo || "Primeiro acesso"}</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <p class="navbar-brand" style="color: green;">Biblioteca</p>
+            <div>
+                <a class="nav-link" href="/cadastroLivro">Cadastro de Livros</a>
+                <a class="nav-link" href="/cadastroLeitor">Cadastro de Leitores</a>
+                <a class="nav-link" style="color:red;" href="/">SAIR</a>
+            </div>
+        </div>
+    </nav>
 
-        <a href="/cadastroLivro">Cadastro de Livros</a><br>
-        <a href="/cadastroLeitor">Cadastro de Leitores</a><br>
-        <a href="/">Sair</a>
+    <div class="container mt-4">
+        <p style="color:green;">Último acesso: ${ultimo || "Primeiro acesso"}</p>
+    </div>
+
+    </body>
+    </html>
     `)
 })
 
@@ -76,14 +95,40 @@ app.get("/menu", validarAcesso, (req,res)=>{
 // CADASTRO LIVROS
 app.get("/cadastroLivro", validarAcesso, (req,res)=>{
     res.send(`
-        <h2>Cadastro de Livro</h2>
-        <form method="POST">
-            Título: <input name="titulo"><br>
-            Autor: <input name="autor"><br>
-            ISBN: <input name="isbn"><br>
-            <button>Cadastrar</button>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Cadastro Livro</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+
+    <h3 style="text-align:center; color:red; text-decoration:underline;">Cadastro de Livros</h3>
+
+    <div style="display:flex; justify-content:center; align-items:center; height:100vh;">
+        <form action="/cadastroLivro" method="POST"
+        style="width:300px; padding:20px; border:2px solid #444; border-radius:10px;">
+
+            <label class="form-label">Título:</label>
+            <input type="text" name="titulo" class="form-control mb-3">
+
+            <label class="form-label">Autor:</label>
+            <input type="text" name="autor" class="form-control mb-3">
+
+            <label class="form-label">ISBN:</label>
+            <input type="text" name="isbn" class="form-control mb-3">
+
+            <button class="btn btn-primary w-100">Cadastrar</button>
+
+            <br><br>
+            <a href="/menu" class="btn btn-secondary w-100">Voltar</a>
+
         </form>
-        <a href="/menu">Voltar</a>
+    </div>
+
+    </body>
+    </html>
     `)
 })
 
@@ -100,21 +145,46 @@ app.post("/cadastroLivro", validarAcesso, (req,res)=>{
 
 // LISTA LIVROS
 app.get("/listaLivros", validarAcesso, (req,res)=>{
-    let html = `<h2>Lista de Livros</h2><table border="1">`;
+    let html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista Livros</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
 
-    for(let i=0; i<lista_Livros.length; i++){
-        html += `
+    <table class="table table-dark table-hover">
+        <thead>
             <tr>
-                <td>${lista_Livros[i].titulo}</td>
-                <td>${lista_Livros[i].autor}</td>
-                <td>${lista_Livros[i].isbn}</td>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
             </tr>
-        `;
+        </thead>
+        <tbody>
+    `;
+
+    for(let i=0;i<lista_Livros.length;i++){
+        html += `
+        <tr>
+            <td>${lista_Livros[i].titulo}</td>
+            <td>${lista_Livros[i].autor}</td>
+            <td>${lista_Livros[i].isbn}</td>
+        </tr>`;
     }
 
-    html += `</table>
-    <a href="/cadastroLivro">Novo Livro</a><br>
-    <a href="/menu">Menu</a>
+    html += `
+        </tbody>
+    </table>
+
+    <a href="/cadastroLivro" class="btn btn-secondary w-100">Novo Livro</a>
+    <br><br>
+    <a href="/menu" class="btn btn-secondary w-100">Menu</a>
+
+    </body>
+    </html>
     `;
 
     res.send(html);
@@ -131,24 +201,61 @@ app.get("/cadastroLeitor", validarAcesso, (req,res)=>{
     }
 
     res.send(`
-        <h2>Cadastro de Leitor</h2>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Cadastro Leitor</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
 
-        <form method="POST">
-            Nome: <input name="nome"><br>
-            CPF: <input name="cpf"><br>
-            Telefone: <input name="telefone"><br>
-            Data Empréstimo: <input name="dataEmp"><br>
-            Data Devolução: <input name="dataDev"><br>
+    <h3 style="text-align:center; color:red; text-decoration:underline;">Cadastro de Leitores</h3>
 
-            Livro:
-            <select name="livro">
-                ${options}
-            </select>
+    <div style="display:flex; justify-content:center; align-items:center; height:100vh;">
+        
+        <form action="/cadastroLeitor" method="POST"
+        style="width:600px; padding:20px; border:2px solid #444; border-radius:10px;">
 
-            <button>Cadastrar</button>
+            <div class="row">
+
+                <div class="col">
+                    <label>Nome:</label>
+                    <input name="nome" class="form-control mb-3">
+
+                    <label>CPF:</label>
+                    <input name="cpf" class="form-control mb-3">
+
+                    <label>Telefone:</label>
+                    <input name="telefone" class="form-control mb-3">
+                </div>
+
+                <div class="col">
+                    <label>Data Empréstimo:</label>
+                    <input name="dataEmp" class="form-control mb-3">
+
+                    <label>Data Devolução:</label>
+                    <input name="dataDev" class="form-control mb-3">
+
+                    <label>Livro:</label>
+                    <select name="livro" class="form-control">
+                        ${options}
+                    </select>
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary w-100 mt-3">Cadastrar</button>
+
+            <br><br>
+            <a href="/menu" class="btn btn-secondary w-100">Voltar</a>
+
         </form>
 
-        <a href="/menu">Voltar</a>
+    </div>
+
+    </body>
+    </html>
     `)
 })
 
@@ -165,24 +272,52 @@ app.post("/cadastroLeitor", validarAcesso, (req,res)=>{
 
 // LISTA LEITORES
 app.get("/listaLeitores", validarAcesso, (req,res)=>{
-    let html = `<h2>Lista de Leitores</h2><table border="1">`;
+    let html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista Leitores</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
 
-    for(let i=0; i<lista_Leitores.length; i++){
-        html += `
+    <table class="table table-dark table-hover">
+        <thead>
             <tr>
-                <td>${lista_Leitores[i].nome}</td>
-                <td>${lista_Leitores[i].cpf}</td>
-                <td>${lista_Leitores[i].telefone}</td>
-                <td>${lista_Leitores[i].dataEmp}</td>
-                <td>${lista_Leitores[i].dataDev}</td>
-                <td>${lista_Leitores[i].livro}</td>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Empréstimo</th>
+                <th>Devolução</th>
+                <th>Livro</th>
             </tr>
-        `;
+        </thead>
+        <tbody>
+    `;
+
+    for(let i=0;i<lista_Leitores.length;i++){
+        html += `
+        <tr>
+            <td>${lista_Leitores[i].nome}</td>
+            <td>${lista_Leitores[i].cpf}</td>
+            <td>${lista_Leitores[i].telefone}</td>
+            <td>${lista_Leitores[i].dataEmp}</td>
+            <td>${lista_Leitores[i].dataDev}</td>
+            <td>${lista_Leitores[i].livro}</td>
+        </tr>`;
     }
 
-    html += `</table>
-    <a href="/cadastroLeitor">Novo Leitor</a><br>
-    <a href="/menu">Menu</a>
+    html += `
+        </tbody>
+    </table>
+
+    <a href="/cadastroLeitor" class="btn btn-secondary w-100">Novo Leitor</a>
+    <br><br>
+    <a href="/menu" class="btn btn-secondary w-100">Menu</a>
+
+    </body>
+    </html>
     `;
 
     res.send(html);
