@@ -73,12 +73,27 @@ app.get("/menu", validarAcesso, (req,res)=>{
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <p class="navbar-brand" style="color: green;">Biblioteca</p>
-            <div>
-                <a class="nav-link" href="/cadastroLivro">Cadastro de Livros</a>
-                <a class="nav-link" href="/cadastroLeitor">Cadastro de Leitores</a>
-                <a class="nav-link" style="color:red;" href="/">SAIR</a>
+            
+            <span class="navbar-brand" style="color: green;">Biblioteca</span>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cadastroLivro">Cadastro de Livros</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cadastroLeitor">Cadastro de Leitores</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" style="color:red;" href="/">SAIR</a>
+                    </li>
+
+                </ul>
             </div>
+
         </div>
     </nav>
 
